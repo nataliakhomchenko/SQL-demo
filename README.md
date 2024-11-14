@@ -1,1 +1,1 @@
-# demo_dbt
+# SQL Server sample code
