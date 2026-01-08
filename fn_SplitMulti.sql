@@ -1,9 +1,5 @@
 ALTER FUNCTION [dbo].[fn_SplitMulti]
 
-/* This function is used to split up multi-value parameters from SSRS */
-
-/* Only SQL Server 2005 compatible*/
-
 (
 
 @ItemList NVARCHAR(MAX),
@@ -57,5 +53,6 @@ SET @i = CHARINDEX(@delimiter, @tempItemList)
 END
 
 RETURN
+
 
 END
