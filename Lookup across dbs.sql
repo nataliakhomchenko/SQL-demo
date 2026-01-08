@@ -81,87 +81,6 @@ close DB_Cursor
 deallocate DB_Cursor             
 
  
-
- 
-
-/************************************************************************************/
-
- 
-
-declare @sql varchar(max), @db_name varchar(50)          ,@car_id varchar(50)
-
- 
-
-declare DB_Cursor cursor  for
-
- 
-
- 
-
-                select distinct db_name, hp.car_id
-
-from niacore..health_plan hp
-
- 
-
- 
-
-left join adhoc.dbo.PG_Timeliness_targets  tlt on tlt.car_id=hp.car_id
-
-where hp.car_id in
-
-                                                                                (select hc.car_id from niacore..health_carrier hc
-
-                                                                                where hc.date_contract_inactive is null and hc.date_contract_active < getdate()
-
-                                                                                and (hp.date_inactive is null or DATEADD(MONTH, 12, hp.date_inactive) > getdate())
-
-                                               
-
-                                                                                )
-
- 
-
-open DB_Cursor
-
- 
-
-fetch next from DB_Cursor into @db_name, @car_id
-
-while @@fetch_status = 0
-
-BEGIN
-
-fetch next from DB_Cursor into @db_name, @car_id
-
-set @sql='USE '+@db_name+
-
-'
-
-use '+@db_name+'
-
-SELECT * FROM authorizations WHERE authorization_type_id=24
-
-'
-
-print @db_name
-
---print @sql
-
-exec (@sql)
-
- 
-
-end
-
-close DB_Cursor
-
-deallocate DB_Cursor             
-
- 
-
- 
-
 /*********************************************************************/
 
 declare @sql varchar(max), @db_name varchar(50)
@@ -225,5 +144,6 @@ exec (@sql)
 end
 
 close DB_Cursor
+
 
 deallocate DB_Cursor         
